@@ -2,4 +2,14 @@
 Bot for discord using python.
 quotes -- done
 gif -- done
-motivations -- done
+
+# Done
+daily quotes
+gif
+
+# To-Do
+youtube links access
+google dictionary
+spotify
+welcome msg for new comers
+memes
