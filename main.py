@@ -1,20 +1,14 @@
 import discord
 import os
 import json
-from discord.channel import VoiceChannel
 import requests
 import random
 import giphy_client
 from giphy_client.rest import ApiException
 from discord.ext import commands
-import sys
-import traceback
-
-
-
-# client = commands.Bot(command_prefix = '!')
-bot = commands.Bot(command_prefix = '!' , case_insensitive = True)
-bot.remove_command('help')
+from dotenv import load_dotenv
+load_dotenv()
+client = commands.Bot(command_prefix="!",intents=discord.Intents.all())
 
 
 # sad = ['sad', 'depression', 'depressed', 'misery', 'miserable', 'dukh', 'angry', 'anger', 'dukhi', 'gussa', 'gnda', 'dard', 'pain', 'unhappy']
@@ -24,56 +18,43 @@ bot.remove_command('help')
 # "Hey, I haven’t forgotten about you or how difficult this must be. You’re showing a lot of strength.",
 # "Shit happens to everyone. Not everyone deals with it as well as you."]
 
-# @client.event
-# async def on_ready():
-#     print("Hi , I am {0.user}".format(client))
-# def qoute():
-#     reply = requests.get("https://zenquotes.io/api/random")
-#     json_data = json.loads(reply.text)
-#     quote = json_data[0]['q'] + " -" + json_data[0]['a']
-#     return(quote)
+
+
+@client.event
+async def on_ready():
+    print("Hi , I am {0.user}".format(client))
+
+
+@client.command()
+async def quote(ctx):
+    reply = requests.get("https://zenquotes.io/api/random")
+    json_data = json.loads(reply.text)
+    quote = json_data[0]['q'] + " -" + json_data[0]['a']
+    await ctx.channel.send(quote)
 
 # @client.event
 # async def on_message(message):
-#     if message.author == client.user:
-#         return
-#     if message.content.startswith("!test"):
-#         await message.channel.send("Bot is working!!")
-#     if message.content.startswith("!quote"):
-#         quote = qoute()
-#         await message.channel.send(quote)
 #     if any(word in message.content for word in sad):
 #         await message.channel.send(random.choice(sad_reply))
 
-# @client.event
-# async def gif(ctx,*,q = 'Smile'):
-#     api_key = 'DEORFvNt9LsDlaMWqAdbHRf8Tj5VbAGu'
-#     api_instance = giphy_client.DefaultApi()
+@client.command()
+async def gif(ctx,*,q="random"):
 
-# @commands.command()
-# async def play(message , ctx , url : str):
-#     if message.content.startswith('!join'):
-#         VoiceChannel = discord.utils.get(ctx.guild.voice_channels ,name = 'Kithe aa')
-#         voice = discord.utils.get(client.voice_client , guild = ctx.guild)
-#         await VoiceChannel.connect()
+    api_key=os.getenv('api_key')
+    api_instance = giphy_client.DefaultApi()
 
-# @client.command(pass_context=True)
-# async def join(ctx):
-#     channel = ctx.message.author.voice.voice_channel
-#     await client.join_voice_channel(channel)
-    
-@bot.event
-async def on_ready():
-    print('Lets go!!')
+    try: 
+        
+        api_response = api_instance.gifs_search_get(api_key, q, limit=5, rating='g')
+        lst = list(api_response.data)
+        giff = random.choice(lst)
 
-extensions = ['cogs.meme']
-if __name__ == "__main__":
-    for extension in extensions:
-        try:
-            bot.load_extension(extension)
-        except Exception as e:
-            print(f'Error loading {extension}' , file = sys.stderr)
-            traceback.print_exc()
+        emb = discord.Embed(title=q)
+        emb.set_image(url = f'https://media.giphy.com/media/{giff.id}/giphy.gif')
 
+        await ctx.channel.send(embed=emb)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->gifs_search_get: %s\n" % e)
+   
 
-bot.run('ODk2ODEyNjQ3NDEwOTc0NzYw.YWMj3Q.WQj39Xxqh5WJs1jgDkmfG9XbfsQ')
+client.run(os.getenv('TOKEN'))
