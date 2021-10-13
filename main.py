@@ -65,7 +65,6 @@ async def on_message(message):
         Token =  message.content.split(" ")
         if (len(Token) > 1):
             s= ' '
-
             q = s.join(Token[1:])
         try: 
             api_response = api_instance.gifs_search_get(api_key, q, limit=5, rating='g')
