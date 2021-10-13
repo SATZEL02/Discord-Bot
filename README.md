@@ -6,6 +6,7 @@ gif -- done
 # Done
 daily quotes
 gif
+motivation
 
 # To-Do
 youtube links access
