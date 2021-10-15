@@ -38,7 +38,7 @@ def qoute():
     quote = json_data[0]['q'] + " -" + json_data[0]['a']    
     return(quote)
 
-
+    
 # lets begin
 @client.event
 async def on_message(message):
@@ -46,22 +46,27 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+
     #test function
     if message.content.startswith("!test"):
         await message.channel.send("Bot is working!!")
+
 
     #quote function
     if message.content.startswith("!quote"):
         quote = qoute()
         await message.channel.send(quote)
 
+
     #motivation function
     if any(word in message.content for word in sad):
         await message.channel.send(random.choice(sad_reply))
 
+
     #slang function
     if any(word in message.content for word in slang):
         await message.channel.send(random.choice(slang_reply))
+
 
     #gif function
     if message.content.startswith('!gif'):
@@ -82,6 +87,7 @@ async def on_message(message):
         except ApiException as exp:
             print("Exception when calling DefaultApi->gifs_search_get: %s\n" % exp)
 
+
     #meme function
     if message.content.startswith('!meme'):
         res = requests.get("https://memes.blademaker.tv/api?lang=en")
@@ -94,15 +100,39 @@ async def on_message(message):
         embed.set_image(url=memes['image'])
         embed.set_footer(text = f"👍: {ups} 👎: {downs}")
         await message.channel.send(embed=embed)
+
+
     #join vchannel
     if message.content.startswith('!join'):
         channel = message.author.voice.channel
         await channel.connect()
+
+
     #leave vchannel
     if message.content.startswith('!leave'):
         server = message.guild
         voice_client = server.voice_client
         await voice_client.disconnect()
+
+
+    #dictionary
+    if message.content.startswith('!find'):
+        word = 'Smile'
+        ques =  message.content.split(" ")
+        if len(ques) > 1:
+            s= ' '
+            word = s.join(ques[1:])
+        mean = requests.get("https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word))
+        ans = mean.json()
+        json_data = json.loads(mean.text) 
+        define = json_data[0]['meanings']
+        define2 = define[0]['definitions']
+        define3= define2[0]['definition']
+        define4= define2[0]['example']
+        ans = word + '\n' + 'Meaning' + ' :- ' + define3 + '\n' + 'Example :- ' + define4 + '.'
+        await message.channel.send(ans)
+
+
     #play vmusic
 
 client.run(os.getenv('TOKEN'))
