@@ -8,6 +8,7 @@ motivation
 memes
 join
 leave
+slang
 
 # To-Do
 youtube links access
