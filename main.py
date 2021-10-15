@@ -8,11 +8,7 @@ from giphy_client.rest import ApiException
 from dotenv import load_dotenv
 load_dotenv()
 
-
-
 client = discord.Client()
-
-
 
 sad = ['sad', 'depression', 'depressed', 'misery', 'miserable', 'dukh', 'angry', 'anger', 'dukhi', 'gussa', 'gnda', 'dard', 'cry', 'sob', 'crying', 'rona', 'weep','weeping','sobbing', 'pain', 'unhappy'] 
 sad_reply = ["Whenever you need to call, I'm here.",
@@ -20,7 +16,6 @@ sad_reply = ["Whenever you need to call, I'm here.",
 "You're still in my thoughts. Remember that.",
 "Hey, I haven’t forgotten about you or how difficult this must be. You’re showing a lot of strength.",
 "Shit happens to everyone. Not everyone deals with it as well as you."]
-
 
 
 @client.event
