@@ -24,14 +24,9 @@ slang_reply = ['A WILD PERSON WITH CALM MIND CAN MAKE ANYTHING , REMEMBER THAT !
 'Calm your mind life becomes more crystal clear',
 'The nearer a man comes to a calm mind the closer he is to strenght' , 
 'Mistakes & pressures are inevitable; the secret to getting past them is to stay calm',
-'Serenity comes when you trade expectations for acceptance',
 'You practice mindfulness, on the one hand, to be calm & peaceful. On the other hand, as you practice mindfulness & live a life of peace, you inspire hope for a future of peace',
 'Close your eyes, shut your mind for a while, for there a tranquil land that awaits your presence',
-'TAKE A DEEP BREATH!!'
-
-]
-
-
+'TAKE A DEEP BREATH!!']
 
 
 @client.event
