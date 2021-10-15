@@ -9,10 +9,10 @@ memes
 join
 leave
 slang
+google dictionary
 
 # To-Do
 youtube links access
-google dictionary
 spotify
 welcome msg for new comers
 roast
