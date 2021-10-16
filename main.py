@@ -87,6 +87,8 @@ def qoute():
 # lets begin
 @client.event
 async def on_message(message):
+
+
     #return function
     if message.author == client.user:
         return
@@ -193,12 +195,6 @@ async def on_message(message):
                 else:
                     ans = word + '\n' + 'Meaning' + ' :- ' + define3
                 await message.channel.send(ans)
-            # elif any('word' in keys for keys in json_data) and not('example' in keys for keys in json_data):
-            #     define = json_data[0]['meanings']
-            #     define2 = define[0]['definitions']
-            #     define3= define2[0]['definition']
-            #     ans = word + '\n' + 'Meaning' + ' :- ' + define3
-            #     await message.channel.send(ans)
             else:
                 await message.channel.send("Sorry pal, we couldn't find definitions for '" + word + "'. You can head to the web instead.")
         else:
