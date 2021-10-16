@@ -12,6 +12,7 @@ slang
 google dictionary
 roast
 say
+jokes
 
 # To-Do
 youtube links access
