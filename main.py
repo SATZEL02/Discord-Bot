@@ -189,7 +189,7 @@ async def on_message(message):
                 define = json_data[0]['meanings']
                 define2 = define[0]['definitions']
                 define3= define2[0]['definition']
-                if any('example' in keys for keys in define2):
+                if any('example' in keys for keys in define2[0]):
                     define4= define2[0]['example']
                     ans = word + '\n' + 'Meaning' + ' :- ' + define3 + '\n' + 'Example' + ' :- ' + define4
                 else:
