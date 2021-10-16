@@ -10,7 +10,7 @@ load_dotenv()
 
 client = discord.Client()
 
-sad = ['sad', 'depression', 'depressed', 'misery', 'miserable', 'dukh', 'angry', 'anger', 'dukhi', 'gussa', 'gnda', 'dard', 'cry', 'sob', 'crying', 'rona', 'weep','weeping','sobbing', 'pain', 'unhappy'] 
+sad = ['sad', 'depress', 'misery', 'miserable', 'dukh', 'angry', 'anger', 'dukhi', 'gussa', 'gnda', 'dard', 'cry', 'sob',  'rona', 'weep','pain', 'unhappy', 'SAD', 'DEPRESS', 'MISERY', 'MISERABLE', 'DUKH', 'ANGRY', 'ANGER', 'DUKHI', 'GUSSA', 'GNDA', 'DARD', 'CRY', 'SOB',  'RONA', 'WEEP','PAIN', 'UNHAPPY'] 
 sad_reply = ["Whenever you need to call, I'm here.",
 "I wish I could be there right now.",
 "You're still in my thoughts. Remember that.",
@@ -18,7 +18,7 @@ sad_reply = ["Whenever you need to call, I'm here.",
 "Shit happens to everyone. Not everyone deals with it as well as you."]
 
 
-slang = ['fuck', 'bakchod' , 'baklode' , 'chutiya' , 'behenchod' , 'madarchod' , 'gand' , 'gaand' , 'asshole' , 'chod' , 'chut' , 'loda' , 'choot' , 'lund' , 'lawde' , 'bitch' , 'pancho' , 'behnchod' , 'maachod' , 'bhadwe' , 'bsdk' , 'bhosdike' , 'dick' , 'jhaatu' , 'aulaad' , 'chudwa']
+slang = ['fuck', 'lode' ,'gand' , 'gaand' , 'asshole' , 'chod' , 'chut' , 'loda' , 'choot' , 'lund' , 'lawde' , 'bitch' , 'pancho', 'randi', 'bhadwa' , 'bhadwe' , 'bsdk' , 'bhosdike' , 'dick' , 'jhaatu' , 'aulaad' , 'chudwa', 'FUCK', 'LODE' ,'GAND' , 'GAAND' , 'ASSHOLE' , 'CHOD' , 'CHUT' , 'LODA' , 'CHOOT' , 'LUND' , 'LAWDE' , 'BITCH' , 'PANCHO', 'RANDI', 'BHADWA' , 'BHADWE' , 'BSDK' , 'BHOSDIKE' , 'DICK' , 'JHAATU' , 'AULAAD' , 'CHUDWA']
 slang_reply = ['A WILD PERSON WITH CALM MIND CAN MAKE ANYTHING , REMEMBER THAT !!', 
 'You don’t have to control your thoughts. You just have to stop letting them control you!!',
 'Calm your mind life becomes more crystal clear',
@@ -93,7 +93,7 @@ async def on_message(message):
 
 
     #test function
-    if message.content.startswith("!help" or "!HElP"):
+    if message.content.startswith("!help") or message.content.startswith("!HELP"):
         help_text = "Hey, Wass up guys!! I am Y$M, you can call me Yum. I am here to help you to have a little bit of more fun with your discord family. So here are the commands through which you can access my features:"
         embed = discord.Embed(title='Y$M\nDiscord Bot' , description=help_text , color= discord.Color.blue())
         embed.add_field(name="!quote ", value="Wanna read something motivational, here I am.", inline=False)
@@ -110,7 +110,7 @@ async def on_message(message):
 
 
     #quote function
-    if message.content.startswith("!quote" or '!QUOTE'):
+    if message.content.startswith("!quote") or message.content.startswith('!QUOTE'):
         quote = qoute()
         await message.channel.send(quote)
 
@@ -126,7 +126,7 @@ async def on_message(message):
 
 
     #gif function
-    if message.content.startswith('!gif' or '!GIF'):
+    if message.content.startswith('!gif') or message.content.startswith('!GIF'):
         q = 'Smile'
         api_key=os.getenv('api_key')
         api_instance = giphy_client.DefaultApi()
@@ -146,7 +146,7 @@ async def on_message(message):
 
 
     #meme function
-    if message.content.startswith('!meme' or '!MEME'):
+    if message.content.startswith('!meme') or message.content.startswith('!MEME'):
         res = requests.get("https://memes.blademaker.tv/api?lang=en")
         memes = res.json()
         title = memes['title']
@@ -160,20 +160,20 @@ async def on_message(message):
 
 
     #join vchannel
-    if message.content.startswith('!join' or '!JOIN'):
+    if message.content.startswith('!join') or message.content.startswith('!JOIN'):
         channel = message.author.voice.channel
         await channel.connect()
 
 
     #leave vchannel
-    if message.content.startswith('!leave' or '!LEAVE'):
+    if message.content.startswith('!leave') or message.content.startswith('!LEAVE'):
         server = message.guild
         voice_client = server.voice_client
         await voice_client.disconnect()
 
 
     #dictionary
-    if message.content.startswith('!find' or '!FIND'):
+    if message.content.startswith('!find') or message.content.startswith('!FIND'):
         word = 'Smile'
         ques =  message.content.split(" ")
         if len(ques) > 1:
@@ -187,9 +187,18 @@ async def on_message(message):
                 define = json_data[0]['meanings']
                 define2 = define[0]['definitions']
                 define3= define2[0]['definition']
-                # define4= define2[0]['example']
-                ans = word + '\n' + 'Meaning' + ' :- ' + define3
+                if any('example' in keys for keys in define2):
+                    define4= define2[0]['example']
+                    ans = word + '\n' + 'Meaning' + ' :- ' + define3 + '\n' + 'Example' + ' :- ' + define4
+                else:
+                    ans = word + '\n' + 'Meaning' + ' :- ' + define3
                 await message.channel.send(ans)
+            # elif any('word' in keys for keys in json_data) and not('example' in keys for keys in json_data):
+            #     define = json_data[0]['meanings']
+            #     define2 = define[0]['definitions']
+            #     define3= define2[0]['definition']
+            #     ans = word + '\n' + 'Meaning' + ' :- ' + define3
+            #     await message.channel.send(ans)
             else:
                 await message.channel.send("Sorry pal, we couldn't find definitions for '" + word + "'. You can head to the web instead.")
         else:
@@ -197,12 +206,12 @@ async def on_message(message):
 
 
     #roast function
-    if message.content.startswith('!roast' or '!ROAST'):
+    if message.content.startswith('!roast') or message.content.startswith('!ROAST'):
         await message.channel.send(random.choice(roast_lines))
 
 
     #say function
-    if message.content.startswith('!say' or '!SAY'):
+    if message.content.startswith('!say') or message.content.startswith('!SAY'):
         say = message.content.split(' ')
         if len(say) > 1:
             s = ' '
@@ -213,7 +222,7 @@ async def on_message(message):
 
 
     #joke function
-    if message.content.startswith('!joke' or '!JOKE'):
+    if message.content.startswith('!joke') or message.content.startswith('!JOKE'):
         joke = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=religious,racist,sexist")
         jokes = joke.json()
         json_data = json.loads(joke.text)
