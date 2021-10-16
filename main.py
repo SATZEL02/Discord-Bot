@@ -122,17 +122,24 @@ async def on_message(message):
         if len(ques) > 1:
             s= ' '
             word = s.join(ques[1:])
-        mean = requests.get("https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word))
-        ans = mean.json()
-        json_data = json.loads(mean.text) 
-        define = json_data[0]['meanings']
-        define2 = define[0]['definitions']
-        define3= define2[0]['definition']
-        define4= define2[0]['example']
-        ans = word + '\n' + 'Meaning' + ' :- ' + define3 + '\n' + 'Example :- ' + define4 + '.'
-        await message.channel.send(ans)
+        if len(ques) <= 2:
+            mean = requests.get("https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word))
+            ans = mean.json()
+            json_data = json.loads(mean.text) 
+            if 'word' in json_data.keys():
+                define = json_data[0]['meanings']
+                define2 = define[0]['definitions']
+                define3= define2[0]['definition']
+                define4= define2[0]['example']
+                ans = word + '\n' + 'Meaning' + ' :- ' + define3 + '\n' + 'Example :- ' + define4 + '.'
+                await message.channel.send(ans)
+            else:
+                await message.channel.send("Sorry pal, we couldn't find definitions for '" + word + "'. You can head to the web instead.")
+        else:
+            await message.channel.send('Please type one word at a time!!')
 
 
     #play vmusic
+    
 
 client.run(os.getenv('TOKEN'))
