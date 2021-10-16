@@ -204,10 +204,16 @@ async def on_message(message):
     if message.content.startswith('!joke'):
         joke = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=religious,racist,sexist")
         jokes = joke.json()
-        json_data = json.loads(jokes)
-        joke1 = json_data[0]['joke']
-        print(joke1)
-
+        json_data = json.loads(joke.text)
+        type = json_data["type"]
+        if type == 'single':
+            joke1 = json_data["joke"]
+            await message.channel.send(joke1)
+        if type == 'twopart':
+            joke2 = json_data["setup"]
+            joke3 = json_data["delivery"]
+            jokefinal = joke2 + '\n' + joke3
+            await message.channel.send(jokefinal)
     #play vmusic
     
 
