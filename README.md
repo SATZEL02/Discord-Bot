@@ -10,9 +10,9 @@ join
 leave
 slang
 google dictionary
+roast
+say
 
 # To-Do
 youtube links access
 spotify
-welcome msg for new comers
-roast

@@ -29,6 +29,51 @@ slang_reply = ['A WILD PERSON WITH CALM MIND CAN MAKE ANYTHING , REMEMBER THAT !
 'TAKE A DEEP BREATH!!']
 
 
+roast_lines = ['You’re the reason God created the middle finger.',
+'Your secrets are always safe with me. I never even listen when you tell me them.',
+'You bring everyone so much joy when you leave the chat.',
+'I’d give you a nasty look but you’ve already got one.',
+'Someday you’ll go far. I hope you stay there.',
+'Were you born this stupid or did you take lessons?',
+'You should really come with a warning label.',
+'It’s kind of hilarious watching you try to fit your entire vocabulary into one sentence.',
+' I’ll never forget the first time we met. But I’ll keep trying.',
+'You are so full of shit, the toilet’s jealous.',
+'Stupidity isn’t a crime, so you’re free to go.',
+'I love what you’ve done with your hair. How do you get it to come out of the nostrils like that?',
+'Too bad you can’t Photoshop your ugly personality.',
+'God might love you, but everyone else definitely thinks you’re an idiot.',
+"Please just tell me you don’t plan to home-school your kids coz you're stupid af.",
+'You see this chat? I want you out of it.',
+'If you’re going to act like a turd, go lay on the yard.',
+"If you’re going to act like a turd, go lay on the yard.",
+'If laughter is the best medicine, your face must be curing the world.',
+'Everyone’s entitled to act stupid once in a while, but you really abuse the privilege.',
+'Isn’t there a bullet somewhere you could be jumping in front of?',
+'If I threw a stick, you’d leave, right?',
+'Somewhere out there, there’s a tree working very hard to produce oxygen so that you can breathe. I think you should go and apologize to it.',
+'Light travels faster than sound which is why you seemed bright until you spoke.',
+'Hold still. I’m trying to imagine you with personality.',
+'You are the human version of period cramps.',
+'There are some remarkably dumb people in this world. Thanks for helping me understand that.',
+'You’ll never be the man your mom is.',
+'You are like a cloud. When you disappear it’s a beautiful day.',
+'I was hoping for a battle of wits but you appear to be unarmed.',
+'I could eat a bowl of alphabet soup and poop out a smarter statement than whatever you just said.',
+'People like you are the reason I’m on medication.',
+'If you’re going to be two-faced, at least make one of them pretty.',
+'Grab a straw, because you suck.',
+'Were you born on the highway? That is where most accidents happen.',
+'Remember when I asked for your opinion? Me neither.',
+'Don’t be ashamed of who you are. That’s your parent’s job.',
+'I believed in evolution until I met you.',
+'You’re my favorite person… besides every other person I’ve ever met.',
+'I envy people who have never met you.',
+'People like you are the reason God doesn’t talk to us anymore.',
+'Take my lowest priority and put yourself beneath it.',
+'You’re impossible to underestimate.']
+
+
 @client.event
 async def on_ready():
     print("Hi , I am {0.user}".format(client))
@@ -138,6 +183,30 @@ async def on_message(message):
         else:
             await message.channel.send('Please type one word at a time!!')
 
+
+    #roast function
+    if message.content.startswith('!roast'):
+        await message.channel.send(random.choice(roast_lines))
+
+
+    #say function
+    if message.content.startswith('!say'):
+        say = message.content.split(' ')
+        if len(say) > 1:
+            s = ' '
+            final = s.join(say[1:])
+            await message.channel.send(final + '\n' + '**- {}**'.format(message.author))
+        else:
+            await message.channel.send('Hey buddy!!  Wassup?')
+
+
+    #joke function
+    if message.content.startswith('!joke'):
+        joke = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=religious,racist,sexist")
+        jokes = joke.json()
+        json_data = json.loads(jokes)
+        joke1 = json_data[0]['joke']
+        print(joke1)
 
     #play vmusic
     
