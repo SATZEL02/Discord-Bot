@@ -138,7 +138,7 @@ async def on_message(message):
         res = requests.get("https://memes.blademaker.tv/api?lang=en")
         memes = res.json()
         title = memes['title']
-        ups = memes['ups']
+        ups = memes ['ups']
         downs = memes['downs']
         subs = memes['subreddit']
         embed = discord.Embed(title= f"{title}\nSubreddit: {subs}")
@@ -171,7 +171,7 @@ async def on_message(message):
             mean = requests.get("https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word))
             ans = mean.json()
             json_data = json.loads(mean.text) 
-            if 'word' in json_data.keys():
+            if any('word' in keys for keys in json_data):
                 define = json_data[0]['meanings']
                 define2 = define[0]['definitions']
                 define3= define2[0]['definition']
