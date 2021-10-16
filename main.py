@@ -93,12 +93,24 @@ async def on_message(message):
 
 
     #test function
-    if message.content.startswith("!test"):
-        await message.channel.send("Bot is working!!")
+    if message.content.startswith("!help" or "!HElP"):
+        help_text = "Hey, Wass up guys!! I am Y$M, you can call me Yum. I am here to help you to have a little bit of more fun with your discord family. So here are the commands through which you can access my features:"
+        embed = discord.Embed(title='Y$M\nDiscord Bot' , description=help_text , color= discord.Color.blue())
+        embed.add_field(name="!quote ", value="Wanna read something motivational, here I am.", inline=False)
+        embed.add_field(name="!gif <type> ", value="A trendy gif , try one!!", inline=False)
+        embed.add_field(name="!meme ", value="An element of culture, surely you have heard of one.", inline=False)
+        embed.add_field(name="!find <word> ", value="Let’s increase our vocab.", inline=False)
+        embed.add_field(name="!say <message> ", value="Want me to repeat something for you?", inline=False)
+        embed.add_field(name="!roast ", value="Just don’t take it too harsh.", inline=False)
+        embed.add_field(name="!joke ", value="I can be funny sometimes!!", inline=False)
+        embed.add_field(name="!join ", value="Want me to join your voice channel?", inline=False)
+        embed.add_field(name="!leave ", value="Want me to leave your voice channel?", inline=False)
+        embed.set_footer(text="(Remember whenever you feel sad or depressed, I’ll be there for you!!, And don’t forget the ‘!’)\nWe won’t like you using the wrong choice of words!!\nTry to stay polite with others")
+        await message.channel.send(embed = embed)
 
 
     #quote function
-    if message.content.startswith("!quote"):
+    if message.content.startswith("!quote" or '!QUOTE'):
         quote = qoute()
         await message.channel.send(quote)
 
@@ -114,7 +126,7 @@ async def on_message(message):
 
 
     #gif function
-    if message.content.startswith('!gif'):
+    if message.content.startswith('!gif' or '!GIF'):
         q = 'Smile'
         api_key=os.getenv('api_key')
         api_instance = giphy_client.DefaultApi()
@@ -134,7 +146,7 @@ async def on_message(message):
 
 
     #meme function
-    if message.content.startswith('!meme'):
+    if message.content.startswith('!meme' or '!MEME'):
         res = requests.get("https://memes.blademaker.tv/api?lang=en")
         memes = res.json()
         title = memes['title']
@@ -148,20 +160,20 @@ async def on_message(message):
 
 
     #join vchannel
-    if message.content.startswith('!join'):
+    if message.content.startswith('!join' or '!JOIN'):
         channel = message.author.voice.channel
         await channel.connect()
 
 
     #leave vchannel
-    if message.content.startswith('!leave'):
+    if message.content.startswith('!leave' or '!LEAVE'):
         server = message.guild
         voice_client = server.voice_client
         await voice_client.disconnect()
 
 
     #dictionary
-    if message.content.startswith('!find'):
+    if message.content.startswith('!find' or '!FIND'):
         word = 'Smile'
         ques =  message.content.split(" ")
         if len(ques) > 1:
@@ -175,8 +187,8 @@ async def on_message(message):
                 define = json_data[0]['meanings']
                 define2 = define[0]['definitions']
                 define3= define2[0]['definition']
-                define4= define2[0]['example']
-                ans = word + '\n' + 'Meaning' + ' :- ' + define3 + '\n' + 'Example :- ' + define4 + '.'
+                # define4= define2[0]['example']
+                ans = word + '\n' + 'Meaning' + ' :- ' + define3
                 await message.channel.send(ans)
             else:
                 await message.channel.send("Sorry pal, we couldn't find definitions for '" + word + "'. You can head to the web instead.")
@@ -185,12 +197,12 @@ async def on_message(message):
 
 
     #roast function
-    if message.content.startswith('!roast'):
+    if message.content.startswith('!roast' or '!ROAST'):
         await message.channel.send(random.choice(roast_lines))
 
 
     #say function
-    if message.content.startswith('!say'):
+    if message.content.startswith('!say' or '!SAY'):
         say = message.content.split(' ')
         if len(say) > 1:
             s = ' '
@@ -201,7 +213,7 @@ async def on_message(message):
 
 
     #joke function
-    if message.content.startswith('!joke'):
+    if message.content.startswith('!joke' or '!JOKE'):
         joke = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=religious,racist,sexist")
         jokes = joke.json()
         json_data = json.loads(joke.text)
@@ -214,6 +226,8 @@ async def on_message(message):
             joke3 = json_data["delivery"]
             jokefinal = joke2 + '\n' + joke3
             await message.channel.send(jokefinal)
+    
+
     #play vmusic
     
 
