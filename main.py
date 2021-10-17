@@ -3,12 +3,17 @@ import json
 import random
 import discord
 import requests
+from discord import FFmpegPCMAudio
 import giphy_client
+from discord.ext import commands
 from giphy_client.rest import ApiException
 from dotenv import load_dotenv
+
 load_dotenv()
 
-client = discord.Client()
+intents = discord.Intents.default()
+client = discord.Client(intents = intents)
+
 
 sad = ['sad', 'depress', 'misery', 'miserable', 'dukh', 'angry', 'anger', 'dukhi', 'gussa', 'gnda', 'dard', 'cry', 'sob',  'rona', 'weep','pain', 'unhappy', 'SAD', 'DEPRESS', 'MISERY', 'MISERABLE', 'DUKH', 'ANGRY', 'ANGER', 'DUKHI', 'GUSSA', 'GNDA', 'DARD', 'CRY', 'SOB',  'RONA', 'WEEP','PAIN', 'UNHAPPY'] 
 sad_reply = ["Whenever you need to call, I'm here.",
@@ -160,20 +165,6 @@ async def on_message(message):
         embed.set_footer(text = f"👍: {ups} 👎: {downs}")
         await message.channel.send(embed=embed)
 
-
-    #join vchannel
-    if message.content.startswith('!join') or message.content.startswith('!JOIN'):
-        channel = message.author.voice.channel
-        await channel.connect()
-
-
-    #leave vchannel
-    if message.content.startswith('!leave') or message.content.startswith('!LEAVE'):
-        server = message.guild
-        voice_client = server.voice_client
-        await voice_client.disconnect()
-
-
     #dictionary
     if message.content.startswith('!find') or message.content.startswith('!FIND'):
         word = 'Smile'
@@ -233,7 +224,29 @@ async def on_message(message):
             await message.channel.send(jokefinal)
     
 
-    #play vmusic
+    #------------------------------------play music-------------------------------------------
+
+    
+    #join vchannel
+    if message.content.startswith('!join') or message.content.startswith('!JOIN'):
+        if (message.guild.voice_client):
+            await message.channel.send('I am already in voice channel!')
+        elif (message.author.voice):
+            channel = message.author.voice.channel
+            await channel.connect()
+        else:
+            await message.channel.send('You are not in a voice channel')
+
+
+    #leave vchannel
+    if message.content.startswith('!leave') or message.content.startswith('!LEAVE'):
+        if (message.guild.voice_client):
+            await message.guild.voice_client.disconnect()
+            await message.channel.send('I left the vc')
+        else:
+            await message.channel.send('I am not in a vc')
+    
+
     
 
 client.run(os.getenv('TOKEN'))
