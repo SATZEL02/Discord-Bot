@@ -8,6 +8,9 @@ import giphy_client
 from discord.ext import commands
 from giphy_client.rest import ApiException
 from dotenv import load_dotenv
+import youtube_dl
+import urllib.request
+import re
 
 load_dotenv()
 
@@ -27,7 +30,7 @@ slang = ['fuck', 'lode' ,'gand' , 'gaand' , 'asshole' , 'chod' , 'chut' , 'loda'
 slang_reply = ['A WILD PERSON WITH CALM MIND CAN MAKE ANYTHING , REMEMBER THAT !!', 
 'You don’t have to control your thoughts. You just have to stop letting them control you!!',
 'Calm your mind life becomes more crystal clear',
-'The nearer a man comes to a calm mind the closer he is to strenght' , 
+'The nearer a man comes to a calm mind the closer he is to strength' , 
 'Mistakes & pressures are inevitable; the secret to getting past them is to stay calm',
 'You practice mindfulness, on the one hand, to be calm & peaceful. On the other hand, as you practice mindfulness & live a life of peace, you inspire hope for a future of peace',
 'Close your eyes, shut your mind for a while, for there a tranquil land that awaits your presence',
@@ -234,6 +237,44 @@ async def on_message(message):
         elif (message.author.voice):
             channel = message.author.voice.channel
             await channel.connect()
+        else:
+            await message.channel.send('You are not in a voice channel')
+
+
+    #play function
+    if message.content.startswith('!play') or message.content.startswith('!PLAY') or message.content.startswith('!P') or message.content.startswith('!p'):
+        if (message.author.voice):
+            channel = message.author.voice.channel
+            voice = await channel.connect()
+            search_keyword="mozart"
+            song = message.content.split(' ')
+            if len(song) > 1:
+                q = '+'
+                search_keyword = q.join(song[1:])
+            html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+            video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+            print(video_ids)
+            url = "https://www.youtube.com/watch?v=" + video_ids[0]
+            print(url)
+
+            #download video as audio file
+            ydl_opts = {
+                'format' : 'bestaudio/best',
+                'postprocessors' : [{
+                    'key' : 'FFmpegExtractAudio',
+                    'preferredcodec' : 'mp3',
+                    'preferredquality' : '192',
+                }],
+            }
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
+            for file in os.listdir("./"):
+                    if file.endswith('.mp3'):
+                        os.rename(file, search_keyword + '.mp3')
+            
+            source = FFmpegPCMAudio(search_keyword + '.mp3')
+            player = voice.play(source)
+
         else:
             await message.channel.send('You are not in a voice channel')
 
