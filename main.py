@@ -168,6 +168,7 @@ async def on_message(message):
         embed.set_footer(text = f"👍: {ups} 👎: {downs}")
         await message.channel.send(embed=embed)
 
+
     #dictionary
     if message.content.startswith('!find') or message.content.startswith('!FIND'):
         word = 'Smile'
@@ -244,40 +245,77 @@ async def on_message(message):
     #play function
     if message.content.startswith('!play') or message.content.startswith('!PLAY') or message.content.startswith('!P') or message.content.startswith('!p'):
         if (message.author.voice):
-            channel = message.author.voice.channel
-            voice = await channel.connect()
-            search_keyword="mozart"
-            song = message.content.split(' ')
-            if len(song) > 1:
-                q = '+'
-                search_keyword = q.join(song[1:])
-            html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
-            video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-            print(video_ids)
-            url = "https://www.youtube.com/watch?v=" + video_ids[0]
-            print(url)
+            os.chdir(r'./')
+            song_there = os.path.isfile("song.mp3")
+            try:
+                if song_there:
+                    os.remove("song.mp3")
 
-            #download video as audio file
-            ydl_opts = {
-                'format' : 'bestaudio/best',
-                'postprocessors' : [{
-                    'key' : 'FFmpegExtractAudio',
-                    'preferredcodec' : 'mp3',
-                    'preferredquality' : '192',
-                }],
-            }
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([url])
-            for file in os.listdir("./"):
-                    if file.endswith('.mp3'):
-                        os.rename(file, search_keyword + '.mp3')
-            
-            source = FFmpegPCMAudio(search_keyword + '.mp3')
-            player = voice.play(source)
+            except PermissionError:
+                await message.send("Warte")
+            if (message.guild.voice_client):
+                song = message.content.split(' ')
+                if len(song) <= 1:
+                    await message.channel.send('What should i play for you?')
+                else:
+                    q = '+'
+                    search_keyword = q.join(song[1:])
+                html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+                video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+                url = "https://www.youtube.com/watch?v=" + video_ids[0]
+
+                #download video as audio file
+                ydl_opts = {
+                    'format' : 'bestaudio/best',
+                    'postprocessors' : [{
+                        'key' : 'FFmpegExtractAudio',
+                        'preferredcodec' : 'mp3',
+                        'preferredquality' : '192',
+                    }],
+                }
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([url])
+                for file in os.listdir("./"):
+                        if file.endswith('.mp3'):
+                            os.rename(file,'song.mp3')
+                
+                source = FFmpegPCMAudio('song.mp3')
+                player = message.author.voice.channel.play(source)
+            else:
+                channel = message.author.voice.channel
+                voice = await channel.connect()
+                song = message.content.split(' ')
+                if len(song) <= 1:
+                    await message.channel.send('What should i play for you?')
+                else:
+                    q = '+'
+                    search_keyword = q.join(song[1:])
+                html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+                video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+                print(video_ids)
+                url = "https://www.youtube.com/watch?v=" + video_ids[0]
+                print(url)
+                
+                #download video as audio file
+                ydl_opts = {
+                    'format' : 'bestaudio/best',
+                    'postprocessors' : [{
+                        'key' : 'FFmpegExtractAudio',
+                        'preferredcodec' : 'mp3',
+                        'preferredquality' : '192',
+                    }],
+                }
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([url])
+                for file in os.listdir("./"):
+                        if file.endswith('.mp3'):
+                            os.rename(file, 'song.mp3')
+                
+                source = FFmpegPCMAudio('song.mp3')
+                player = voice.play(source)
 
         else:
             await message.channel.send('You are not in a voice channel')
-
 
     #leave vchannel
     if message.content.startswith('!leave') or message.content.startswith('!LEAVE'):
