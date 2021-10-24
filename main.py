@@ -148,8 +148,9 @@ async def on_message(message):
             api_response = api_instance.gifs_search_get(api_key, q, limit=5, rating='g')
             lst = list(api_response.data)
             giff = random.choice(lst)
-            emb = discord.Embed(title=q)
+            emb = discord.Embed(title=q,  color= discord.Color.blue())
             emb.set_image(url = f'https://media.giphy.com/media/{giff.id}/giphy.gif')
+            emb.set_footer(text = f"Powered by GIPHY!!")
             await message.channel.send(embed=emb)
         except ApiException as exp:
             print("Exception when calling DefaultApi->gifs_search_get: %s\n" % exp)
@@ -163,7 +164,7 @@ async def on_message(message):
         ups = memes ['ups']
         downs = memes['downs']
         subs = memes['subreddit']
-        embed = discord.Embed(title= f"{title}\nSubreddit: {subs}")
+        embed = discord.Embed(title= f"{title}\nSubreddit: {subs}",  color= discord.Color.blue())
         embed.set_image(url=memes['image'])
         embed.set_footer(text = f"👍: {ups} 👎: {downs}")
         await message.channel.send(embed=embed)
