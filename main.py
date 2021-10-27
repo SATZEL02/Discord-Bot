@@ -150,7 +150,7 @@ async def on_message(message):
             giff = random.choice(lst)
             emb = discord.Embed(title=q,  color= discord.Color.blue())
             emb.set_image(url = f'https://media.giphy.com/media/{giff.id}/giphy.gif')
-            emb.set_footer(text = f"Powered by GIPHY!!")
+            emb.set_thumbnail(url = f'https://digitalrepubliq.com.au/wp-content/plugins/gf-giphy/images/PoweredBy_640_Horizontal_Light-Backgrounds_With_Logo.gif')
             await message.channel.send(embed=emb)
         except ApiException as exp:
             print("Exception when calling DefaultApi->gifs_search_get: %s\n" % exp)
