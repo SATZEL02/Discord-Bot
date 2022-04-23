@@ -26,17 +26,6 @@ sad_reply = ["Whenever you need to call, I'm here.",
 "Shit happens to everyone. Not everyone deals with it as well as you."]
 
 
-slang = ['fuck', 'lode' ,'gand' , 'gaand' , 'asshole' , 'chod' , 'chut' , 'loda' , 'choot' , 'lund' , 'lawde' , 'bitch' , 'pancho', 'randi', 'bhadwa' , 'bhadwe' , 'bsdk' , 'bhosdike' , 'dick' , 'jhaatu' , 'aulaad' , 'chudwa', 'FUCK', 'LODE' ,'GAND' , 'GAAND' , 'ASSHOLE' , 'CHOD' , 'CHUT' , 'LODA' , 'CHOOT' , 'LUND' , 'LAWDE' , 'BITCH' , 'PANCHO', 'RANDI', 'BHADWA' , 'BHADWE' , 'BSDK' , 'BHOSDIKE' , 'DICK' , 'JHAATU' , 'AULAAD' , 'CHUDWA']
-slang_reply = ['A WILD PERSON WITH CALM MIND CAN MAKE ANYTHING , REMEMBER THAT !!', 
-'You don’t have to control your thoughts. You just have to stop letting them control you!!',
-'Calm your mind life becomes more crystal clear',
-'The nearer a man comes to a calm mind the closer he is to strength' , 
-'Mistakes & pressures are inevitable; the secret to getting past them is to stay calm',
-'You practice mindfulness, on the one hand, to be calm & peaceful. On the other hand, as you practice mindfulness & live a life of peace, you inspire hope for a future of peace',
-'Close your eyes, shut your mind for a while, for there a tranquil land that awaits your presence',
-'TAKE A DEEP BREATH!!']
-
-
 roast_lines = ['You’re the reason God created the middle finger.',
 'Your secrets are always safe with me. I never even listen when you tell me them.',
 'You bring everyone so much joy when you leave the chat.',
@@ -128,11 +117,6 @@ async def on_message(message):
     #motivation function
     if any(word in message.content for word in sad):
         await message.channel.send(random.choice(sad_reply))
-
-
-    #slang function
-    if any(word in message.content for word in slang):
-        await message.channel.send(random.choice(slang_reply))
 
 
     #gif function
