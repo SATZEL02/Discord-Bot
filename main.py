@@ -11,17 +11,7 @@ from dotenv import load_dotenv
 import youtube_dl
 import urllib.request
 import re
-# import os
-# import json
-# import random
-# import discord
-# import requests
-# import giphy_client
-# from giphy_client.rest import ApiException
-# from dotenv import load_dotenv
-# #from keep_alive import keep_alive
-# import urllib.request
-# import re
+
 
 load_dotenv()
 
@@ -35,17 +25,6 @@ sad_reply = ["Whenever you need to call, I'm here.",
 "You're still in my thoughts. Remember that.",
 "Hey, I haven’t forgotten about you or how difficult this must be. You’re showing a lot of strength.",
 "Shit happens to everyone. Not everyone deals with it as well as you."]
-
-
-slang = ['fuck', 'lode' ,'gand' , 'gaand' , 'asshole' , 'chod' , 'chut' , 'loda' , 'choot' , 'lund' , 'lawde' , 'bitch' , 'pancho', 'randi', 'bhadwa' , 'bhadwe' , 'bsdk' , 'bhosdike' , 'dick' , 'jhaatu' , 'aulaad' , 'chudwa', 'FUCK', 'LODE' ,'GAND' , 'GAAND' , 'ASSHOLE' , 'CHOD' , 'CHUT' , 'LODA' , 'CHOOT' , 'LUND' , 'LAWDE' , 'BITCH' , 'PANCHO', 'RANDI', 'BHADWA' , 'BHADWE' , 'BSDK' , 'BHOSDIKE' , 'DICK' , 'JHAATU' , 'AULAAD' , 'CHUDWA']
-slang_reply = ['A WILD PERSON WITH CALM MIND CAN MAKE ANYTHING , REMEMBER THAT !!', 
-'You don’t have to control your thoughts. You just have to stop letting them control you!!',
-'Calm your mind life becomes more crystal clear',
-'The nearer a man comes to a calm mind the closer he is to strength' , 
-'Mistakes & pressures are inevitable; the secret to getting past them is to stay calm',
-'You practice mindfulness, on the one hand, to be calm & peaceful. On the other hand, as you practice mindfulness & live a life of peace, you inspire hope for a future of peace',
-'Close your eyes, shut your mind for a while, for there a tranquil land that awaits your presence',
-'TAKE A DEEP BREATH!!']
 
 
 roast_lines = ['You’re the reason God created the middle finger.',
@@ -139,11 +118,6 @@ async def on_message(message):
     #motivation function
     if any(word in message.content for word in sad):
         await message.channel.send(random.choice(sad_reply))
-
-
-    #slang function
-    if any(word in message.content for word in slang):
-        await message.channel.send(random.choice(slang_reply))
 
 
     #gif function
@@ -347,7 +321,6 @@ async def on_message(message):
         else:
             await message.channel.send('I am not in a vc')
     
-
     
 
 client.run(os.getenv('TOKEN'))
