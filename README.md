@@ -27,6 +27,6 @@ We won’t like you using the wrong choice of words!!
 Try to stay polite with others
 
 
-# Created By:
+# Developed By:
     Payal Jain - National Institute of Technology , Delhi
     Dev Garg - Delhi Technological University
