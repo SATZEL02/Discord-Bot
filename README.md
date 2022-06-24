@@ -26,7 +26,10 @@ Want me to leave your voice channel?
 We won’t like you using the wrong choice of words!!
 Try to stay polite with others
 
-
+#Try Now:-
+    https://discord.com/api/oauth2/authorize?client_id=896812647410974760&permissions=8&scope=bot
+    
+    
 # Developed By:
     Payal Jain - National Institute of Technology , Delhi
     Dev Garg - Delhi Technological University
