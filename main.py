@@ -12,7 +12,6 @@ import youtube_dl
 import urllib.request
 import re
 
-
 load_dotenv()
 
 intents = discord.Intents.default()
@@ -24,7 +23,7 @@ sad_reply = ["Whenever you need to call, I'm here.",
 "I wish I could be there right now.",
 "You're still in my thoughts. Remember that.",
 "Hey, I haven’t forgotten about you or how difficult this must be. You’re showing a lot of strength.",
-"Shit happens to everyone. Not everyone deals with it as well as you."]
+"Problems happen to everyone. Not everyone deals with it as well as you."]
 
 
 roast_lines = ['You’re the reason God created the middle finger.',
@@ -139,20 +138,25 @@ async def on_message(message):
             await message.channel.send(embed=emb)
         except ApiException as exp:
             print("Exception when calling DefaultApi->gifs_search_get: %s\n" % exp)
+            await message.channel.send("Something went wrong!! Please try again later.")
 
 
     #meme function
     if message.content.startswith('!meme') or message.content.startswith('!MEME'):
-        res = requests.get("https://memes.blademaker.tv/api?lang=en")
-        memes = res.json()
-        title = memes['title']
-        ups = memes ['ups']
-        downs = memes['downs']
-        subs = memes['subreddit']
-        embed = discord.Embed(title= f"{title}\nSubreddit: {subs}",  color= discord.Color.blue())
-        embed.set_image(url=memes['image'])
-        embed.set_footer(text = f"👍: {ups} 👎: {downs}")
-        await message.channel.send(embed=embed)
+        try:
+            res = requests.get("https://meme-api.herokuapp.com/gimme")
+            memes = res.json()
+            title = memes['title']
+            ups = memes ['ups']
+            author = memes['author']
+            subs = memes['subreddit']
+            url = memes['preview']
+            embed = discord.Embed(title= f"{title}\nSubreddit: {subs}",  color= discord.Color.blue())
+            embed.set_image(url=url[len(url)-1])
+            embed.set_footer(text = f"👍: {ups}\nAuthor : {author}")
+            await message.channel.send(embed=embed)
+        except:
+            await message.channel.send("Something went wrong!!")
 
 
     #dictionary
@@ -227,18 +231,6 @@ async def on_message(message):
         else:
             await message.channel.send('You are not in a voice channel')
 
-
-    if message.content.startswith('!link') or message.content.startswith('!LINK') or message.content.startswith('!L') or message.content.startswith('!l'):
-        video = message.content.split(' ')
-        if len(video) <= 1:
-            await message.channel.send('What should i provide you?')
-        else:
-            q = '+'
-            search_keyword = q.join(video[1:])
-        html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
-        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-        url = "https://www.youtube.com/watch?v=" + video_ids[0]
-        await message.channel.send(url)
 
     #play function
     if message.content.startswith('!play') or message.content.startswith('!PLAY') or message.content.startswith('!P') or message.content.startswith('!p'):
@@ -321,6 +313,7 @@ async def on_message(message):
         else:
             await message.channel.send('I am not in a vc')
     
+
     
 
 client.run(os.getenv('TOKEN'))
